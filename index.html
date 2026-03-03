@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Noah Chayrigues — Data Analyst & Data Scientist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+            --bg: #0b0e14;
+            --surface: #12161f;
+            --surface2: #181d28;
+            --border: rgba(255,255,255,0.07);
+            --accent: #c8a96e;
+            --accent2: #7eb8d4;
+            --text: #e8e4dc;
+            --muted: #6b7280;
+            --white: #f5f2ee;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* NOISE OVERLAY */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.4rem 4rem;
+            border-bottom: 1px solid var(--border);
+            background: rgba(11,14,20,0.85);
+            backdrop-filter: blur(16px);
+        }
+
+        .nav-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .nav-logo span { color: var(--accent); }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--accent); }
+
+        /* HERO */
+        #hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            padding: 6rem 4rem 4rem;
+            position: relative;
+            gap: 4rem;
+        }
+
+        .hero-left { z-index: 1; }
+
+        .hero-tag {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .hero-tag::before {
+            content: '';
+            display: block;
+            width: 2rem;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3.5rem, 7vw, 6rem);
+            font-weight: 300;
+            line-height: 1.0;
+            color: var(--white);
+            margin-bottom: 0.3rem;
+        }
+
+        h1 .first { display: block; }
+        h1 .last {
+            display: block;
+            color: var(--accent);
+            font-style: italic;
+        }
+
+        .hero-subtitle {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: var(--muted);
+            margin: 1.8rem 0 2.5rem;
+            line-height: 1.7;
+            max-width: 420px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 0.9rem 2rem;
+            background: var(--accent);
+            color: #0b0e14;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            padding: 0.9rem 2rem;
+            background: transparent;
+            color: var(--text);
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* HERO PHOTO */
+        .hero-right {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .photo-frame {
+            position: relative;
+            width: 340px;
+            height: 440px;
+        }
+
+        .photo-frame::before {
+            content: '';
+            position: absolute;
+            inset: -12px;
+            border: 1px solid var(--accent);
+            opacity: 0.3;
+            transform: rotate(2deg);
+        }
+
+        .photo-frame::after {
+            content: '';
+            position: absolute;
+            inset: -24px;
+            border: 1px solid var(--accent2);
+            opacity: 0.12;
+            transform: rotate(-1deg);
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            filter: grayscale(15%) contrast(1.05);
+            display: block;
+        }
+
+        .photo-label {
+            position: absolute;
+            bottom: -2rem;
+            right: -1rem;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+
+        /* HERO BG GRADIENT */
+        .hero-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(200,169,110,0.06) 0%, transparent 70%);
+            top: 50%;
+            left: 30%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        /* SCROLL INDICATOR */
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            color: var(--muted);
+            text-transform: uppercase;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-hint::after {
+            content: '';
+            display: block;
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--muted), transparent);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(6px); }
+        }
+
+        /* SECTIONS */
+        section {
+            padding: 6rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .section-num {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--accent);
+            letter-spacing: 0.1em;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 300;
+            color: var(--white);
+        }
+
+        .section-line {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* SKILLS */
+        #competences { background: var(--surface); }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2px;
+        }
+
+        .skill-category {
+            background: var(--bg);
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+            transition: border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-category::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 3px;
+            height: 0;
+            background: var(--accent);
+            transition: height 0.4s ease;
+        }
+
+        .skill-category:hover::before { height: 100%; }
+        .skill-category:hover { border-color: rgba(200,169,110,0.3); }
+
+        .skill-cat-title {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            padding: 0.35rem 0.85rem;
+            border: 1px solid var(--border);
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text);
+            background: var(--surface);
+            transition: all 0.2s;
+        }
+
+        .skill-tag:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(200,169,110,0.05);
+        }
+
+        .skill-tag.highlight {
+            border-color: rgba(200,169,110,0.4);
+            color: var(--accent);
+            background: rgba(200,169,110,0.08);
+        }
+
+        /* PROJECTS */
+        #projets { background: var(--bg); }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+        }
+
+        .project-card {
+            background: var(--surface);
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: default;
+        }
+
+        .project-card.featured {
+            grid-column: span 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            background: var(--surface2);
+        }
+
+        .project-card:hover {
+            border-color: rgba(200,169,110,0.25);
+            transform: translateY(-2px);
+        }
+
+        .project-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(to right, var(--accent), transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .project-card:hover::after { transform: scaleX(1); }
+
+        .project-year {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .project-type {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border: 1px solid rgba(126,184,212,0.3);
+            font-family: 'DM Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            color: var(--accent2);
+            text-transform: uppercase;
+            margin-bottom: 1.2rem;
+        }
+
+        .project-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: var(--white);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .project-desc {
+            font-size: 0.875rem;
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        .project-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 1.5rem;
+        }
+
+        .stack-pill {
+            padding: 0.2rem 0.65rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            font-family: 'DM Mono', monospace;
+            font-size: 0.62rem;
+            color: var(--muted);
+        }
+
+        .featured-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .featured-badge::before {
+            content: '';
+            display: block;
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* ABOUT / PARCOURS */
+        #parcours { background: var(--surface); }
+
+        .parcours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 1.5rem;
+            padding-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .timeline-item:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            left: 29px;
+            top: 28px;
+            bottom: 0;
+            width: 1px;
+            background: var(--border);
+        }
+
+        .timeline-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+            margin-top: 6px;
+            justify-self: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline-date {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+        }
+
+        .timeline-role {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--white);
+            margin-bottom: 0.3rem;
+        }
+
+        .timeline-org {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-desc {
+            font-size: 0.82rem;
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+        .soft-skills-block {
+            padding: 2.5rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+        }
+
+        .soft-title {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.8rem;
+        }
+
+        .soft-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .soft-icon {
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .soft-name {
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--white);
+            margin-bottom: 0.2rem;
+        }
+
+        .soft-desc {
+            font-size: 0.78rem;
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        /* CONTACT */
+        #contact { background: var(--bg); }
+
+        .contact-inner {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-lead {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 300;
+            font-style: italic;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .contact-sub {
+            font-size: 0.88rem;
+            font-weight: 300;
+            color: var(--muted);
+            margin-bottom: 3rem;
+            line-height: 1.7;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 1rem 1.8rem;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            color: var(--text);
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            transition: all 0.3s;
+        }
+
+        .contact-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(200,169,110,0.05);
+            transform: translateY(-3px);
+        }
+
+        .contact-link svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .contact-email {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            color: var(--muted);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 2px;
+            transition: color 0.3s, border-color 0.3s;
+        }
+
+        .contact-email:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 2rem 4rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        .footer-copy {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+        }
+
+        /* ANIMATIONS */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(24px);
+            animation: fadeUp 0.8s ease forwards;
+        }
+
+        .fade-in:nth-child(1) { animation-delay: 0.1s; }
+        .fade-in:nth-child(2) { animation-delay: 0.25s; }
+        .fade-in:nth-child(3) { animation-delay: 0.4s; }
+        .fade-in:nth-child(4) { animation-delay: 0.55s; }
+
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            nav { padding: 1.2rem 2rem; }
+            section { padding: 4rem 2rem; }
+            #hero { grid-template-columns: 1fr; padding: 7rem 2rem 4rem; text-align: center; }
+            .hero-right { justify-content: center; }
+            .hero-tag { justify-content: center; }
+            .hero-cta { justify-content: center; }
+            .hero-subtitle { margin-left: auto; margin-right: auto; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .project-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+            .parcours-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .photo-frame { width: 260px; height: 340px; }
+            footer { flex-direction: column; gap: 1rem; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <a href="#hero" class="nav-logo">Noah <span>Chayrigues</span></a>
+    <ul class="nav-links">
+        <li><a href="#competences">Compétences</a></li>
+        <li><a href="#projets">Projets</a></li>
+        <li><a href="#parcours">Parcours</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-left">
+        <p class="hero-tag fade-in">Disponible pour alternance · 2025–2026</p>
+        <h1 class="fade-in">
+            <span class="first">Noah</span>
+            <span class="last">Chayrigues</span>
+        </h1>
+        <p class="hero-subtitle fade-in">
+            Étudiant en <strong style="color:var(--white)">Licence MIASHS</strong> à l'Université Paul-Valéry Montpellier 3 — futur master MIASHS. Je transforme les données en insights actionnables grâce à la statistique, le machine learning et la visualisation.
+        </p>
+        <div class="hero-cta fade-in">
+            <a href="#projets" class="btn-primary">Voir mes projets</a>
+            <a href="#contact" class="btn-secondary">Me contacter</a>
+        </div>
+    </div>
+    <div class="hero-right fade-in">
+        <div class="photo-frame">
+            <img src="IMG_2795.jpg" alt="Noah Chayrigues" />
+            <span class="photo-label">Arbitre Fédéral FFF</span>
+        </div>
+    </div>
+    <div class="scroll-hint">Scroll</div>
+</section>
+
+<!-- COMPÉTENCES -->
+<section id="competences">
+    <div class="section-header reveal">
+        <span class="section-num">01</span>
+        <h2 class="section-title">Compétences</h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="skills-grid">
+        <div class="skill-category reveal">
+            <p class="skill-cat-title">Machine Learning & Data Science</p>
+            <div class="skill-tags">
+                <span class="skill-tag highlight">Scikit-learn</span>
+                <span class="skill-tag highlight">Python</span>
+                <span class="skill-tag">Modélisation prédictive</span>
+                <span class="skill-tag">Classification</span>
+                <span class="skill-tag">Régression</span>
+                <span class="skill-tag">Data Mining</span>
+                <span class="skill-tag">Orange</span>
+            </div>
+        </div>
+        <div class="skill-category reveal">
+            <p class="skill-cat-title">Statistiques & Analyse</p>
+            <div class="skill-tags">
+                <span class="skill-tag highlight">R</span>
+                <span class="skill-tag">Statistiques inférentielles</span>
+                <span class="skill-tag">Économétrie</span>
+                <span class="skill-tag">Nettoyage de données</span>
+                <span class="skill-tag">Visualisation</span>
+                <span class="skill-tag">Analyse exploratoire</span>
+            </div>
+        </div>
+        <div class="skill-category reveal">
+            <p class="skill-cat-title">Bases de données & Web</p>
+            <div class="skill-tags">
+                <span class="skill-tag highlight">SQL</span>
+                <span class="skill-tag">MySQL</span>
+                <span class="skill-tag">PHP</span>
+                <span class="skill-tag">HTML/CSS</span>
+                <span class="skill-tag">Gestion BDD</span>
+            </div>
+        </div>
+        <div class="skill-category reveal">
+            <p class="skill-cat-title">Soft Skills</p>
+            <div class="skill-tags">
+                <span class="skill-tag">Rigueur</span>
+                <span class="skill-tag">Leadership</span>
+                <span class="skill-tag">Gestion de pression</span>
+                <span class="skill-tag">Travail en équipe</span>
+                <span class="skill-tag">Prise de décision</span>
+                <span class="skill-tag">Autonomie</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROJETS -->
+<section id="projets">
+    <div class="section-header reveal">
+        <span class="section-num">02</span>
+        <h2 class="section-title">Projets Académiques</h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="projects-grid">
+
+        <!-- FEATURED -->
+        <div class="project-card featured reveal">
+            <div>
+                <span class="featured-badge">Projet phare</span>
+                <p class="project-year">3ème année · 2025–2026</p>
+                <span class="project-type">Machine Learning</span>
+                <h3 class="project-name">Modélisation & Entraînement ML</h3>
+                <p class="project-desc">
+                    Conception et entraînement de modèles de machine learning avec Python. Exploration de pipelines complets : préparation des données, sélection de modèles, optimisation des hyperparamètres et évaluation des performances.
+                </p>
+                <div class="project-stack">
+                    <span class="stack-pill">Python</span>
+                    <span class="stack-pill">Scikit-learn</span>
+                    <span class="stack-pill">Pandas</span>
+                    <span class="stack-pill">NumPy</span>
+                    <span class="stack-pill">Matplotlib</span>
+                </div>
+            </div>
+            <div>
+                <p class="project-year">2ème année · 2023–2024</p>
+                <span class="project-type">Data Mining</span>
+                <h3 class="project-name">Modélisation Prédictive</h3>
+                <p class="project-desc">
+                    Exploration de données et modélisation prédictive avec Orange. Analyse de patterns dans des jeux de données complexes, application d'algorithmes de clustering et de classification supervisée.
+                </p>
+                <div class="project-stack">
+                    <span class="stack-pill">Orange</span>
+                    <span class="stack-pill">Clustering</span>
+                    <span class="stack-pill">Classification</span>
+                    <span class="stack-pill">Visualisation</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Science -->
+        <div class="project-card reveal">
+            <p class="project-year">2ème année · 2024-2025</p>
+            <span class="project-type">Data Science</span>
+            <h3 class="project-name">Analyse IPS & Réussite Scolaire</h3>
+            <p class="project-desc">
+                Analyse avec R de l'Indice de Position Sociale des filières professionnelles et son impact sur la réussite scolaire — nettoyage, visualisation et rédaction d'un rapport complet.
+            </p>
+            <div class="project-stack">
+                <span class="stack-pill">R</span>
+                <span class="stack-pill">ggplot2</span>
+                <span class="stack-pill">dplyr</span>
+                <span class="stack-pill">Rapport</span>
+            </div>
+        </div>
+
+        <!-- Projet Web -->
+        <div class="project-card reveal">
+            <p class="project-year">3ème année · 2025-2026</p>
+            <span class="project-type">Développement Web</span>
+            <h3 class="project-name">Site Web Dynamique</h3>
+            <p class="project-desc">
+                Développement en équipe d'un site web dynamique full-stack avec base de données relationnelle, gestion des utilisateurs et interface responsive.
+            </p>
+            <div class="project-stack">
+                <span class="stack-pill">HTML/CSS</span>
+                <span class="stack-pill">PHP</span>
+                <span class="stack-pill">SQL</span>
+                <span class="stack-pill">MySQL</span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- PARCOURS -->
+<section id="parcours">
+    <div class="section-header reveal">
+        <span class="section-num">03</span>
+        <h2 class="section-title">Parcours</h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="parcours-grid">
+        <div class="timeline">
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div>
+                    <p class="timeline-date">Depuis 2023</p>
+                    <p class="timeline-role">Licence MIASHS — 3ème année</p>
+                    <p class="timeline-org">Université Paul-Valéry Montpellier 3</p>
+                    <p class="timeline-desc">Python, R, SQL, PHP — Statistiques, économétrie, machine learning, gestion de bases de données. Futur master MIASHS.</p>
+                </div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div>
+                    <p class="timeline-date">Mai 2026</p>
+                    <p class="timeline-role">Stage — Analyse de Données</p>
+                    <p class="timeline-org">Thermes de Balaruc-les-Bains</p>
+                    <p class="timeline-desc">Stage en analyse de données dans le cadre de la 3ème année de Licence.</p>
+                </div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div>
+                    <p class="timeline-date">Été 2025</p>
+                    <p class="timeline-role">Ostréiculteur Saisonnier</p>
+                    <p class="timeline-org">Expérience professionnelle</p>
+                    <p class="timeline-desc">Mise en eau, tri et envoi de commandes</p>
+                </div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-dot" style="background:var(--accent2)"></div>
+                <div>
+                    <p class="timeline-date">Depuis 2018</p>
+                    <p class="timeline-role">Arbitre de Football Fédéral</p>
+                    <p class="timeline-org">Fédération Française de Football (FFF)</p>
+                    <p class="timeline-desc">Prise de décision rapide sous pression, leadership, gestion de conflits, formation continue. Une école de rigueur et d'autorité.</p>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="soft-skills-block reveal">
+                <p class="soft-title">Ce que l'arbitrage m'a appris</p>
+                <div class="soft-item">
+                    <span class="soft-icon">⚡</span>
+                    <div>
+                        <p class="soft-name">Décision sous pression</p>
+                        <p class="soft-desc">Des années à prendre des décisions en quelques secondes, face à des situations complexes et contestées.</p>
+                    </div>
+                </div>
+                <div class="soft-item">
+                    <span class="soft-icon">🎯</span>
+                    <div>
+                        <p class="soft-name">Rigueur & impartialité</p>
+                        <p class="soft-desc">Application stricte des règles, objectivité et analyse factuelle — des qualités directement transférables à l'analyse de données.</p>
+                    </div>
+                </div>
+                <div class="soft-item">
+                    <span class="soft-icon">👥</span>
+                    <div>
+                        <p class="soft-name">Leadership naturel</p>
+                        <p class="soft-desc">Encadrement d'un groupe, gestion d'autorité et bonne communication</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+    <div class="contact-inner">
+        <p class="contact-lead reveal">Construisons quelque chose ensemble.</p>
+        <p class="contact-sub reveal">Je suis à la recherche d'une alternance en Data Analyse ou Data Science pour Septembre 2026. N'hésitez pas à me contacter pour échanger sur vos projets.</p>
+        <div class="contact-links reveal">
+            <a href="mailto:noah.chayrigues@outlook.fr" class="contact-link">
+                <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                Email
+            </a>
+            <a href="https://www.linkedin.com/in/noah-chayrigues-b33955397" target="_blank" class="contact-link">
+                <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+            </a>
+            <a href="https://github.com/Layerz29" target="_blank" class="contact-link">
+                <svg viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                GitHub
+            </a>
+        </div>
+        <a href="mailto:noah.chayrigues@outlook.fr" class="contact-email reveal">noah.chayrigues@outlook.fr</a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <span class="footer-name">Noah Chayrigues</span>
+    <span class="footer-copy">Montpellier, France · 2026</span>
+</footer>
+
+<script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
